@@ -15,14 +15,17 @@ class Scraper:
     # parses html
     sp = BeautifulSoup(html, parser)
 
-    # find all a tags then loops over them to get href value of each
-    for tag in sp.find_all("a"):
-      url = tag.get("href")
-      print(url)
-      if url is None:
-        continue
-      if "https" in url:
+    # opens text file and writes results to it
+    with open("output.txt", "w") as f:
+      # find all a tags then loops over them to get href value of each
+      for tag in sp.find_all("a"):
+        url = tag.get("href")
         print(url)
+        if url is None:
+          continue
+        if "https" in url:
+          print("\n" + url)
+          f.write(url + "\n")
 
 urls = "https://teamtreehouse.com/"
 Scraper(urls).scrape()
